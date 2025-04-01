@@ -7,9 +7,9 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 # Chargement des données
 # Ce fichier contient les informations sur les films (titre, genres, etc.)
-movies = pd.read_csv("//Users/ousmanediallo/PycharmProjects/Ai_projet/ai/movies.csv")
+movies = pd.read_csv("movies.csv")
 # Ce fichier contient les notes attribuées par les utilisateurs aux films
-ratings = pd.read_csv("/Users/ousmanediallo/PycharmProjects/Ai_projet/ai/ratings.csv")
+movies = pd.read_csv("ai/movies.csv")
 
 # Prétraitement des genres des films
 # On transforme les genres en une liste
