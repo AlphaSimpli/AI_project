@@ -1,4 +1,3 @@
-import learn
 import pandas as pd
 import re
 import requests
