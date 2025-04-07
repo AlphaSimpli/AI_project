@@ -7,9 +7,9 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 # Chargement des données
 # Ce fichier contient les informations sur les films (titre, genres, etc.)
-movies = pd.read_csv("movies.csv")
+movies = pd.read_csv("/Users/ousmanediallo/PycharmProjects/Ai_projet/ai/movies.csv")
 # Ce fichier contient les notes attribuées par les utilisateurs aux films
-ratings = pd.read_csv("ratings.csv")
+ratings = pd.read_csv("/Users/ousmanediallo/PycharmProjects/Ai_projet/ai/ratings.csv")
 
 # Prétraitement des genres des films
 # On transforme les genres en une liste
@@ -53,7 +53,7 @@ def get_movie_poster(title):
 
 
 # Système de recommandation hybride
-def HybridRecommender(user_id, top_n=2):
+def HybridRecommender(user_id, top_n=4):
     """Recommande des films en combinant filtrage collaboratif et basé sur le contenu."""
     similar_users = user_similarity_df[user_id].drop(user_id)
     similar_users = similar_users[similar_users > 0]
@@ -96,3 +96,4 @@ if st.button("Recommander"):
             st.image(poster_url, caption=title, width=200)
     else:
         st.warning("Aucune recommandation disponible pour cet utilisateur .")
+
