@@ -97,3 +97,47 @@ if st.button("Recommander"):
     else:
         st.warning("Aucune recommandation disponible pour cet utilisateur .")
 
+from sklearn.metrics import precision_score, recall_score, f1_score
+import numpy as np
+
+
+# Fonction pour évaluer la performance
+def evaluate_performance(user_id, recommended_movies, top_n=4):
+    """Évalue la performance du système de recommandation en utilisant les métriques de précision, rappel et F1-score."""
+
+    # Charger les évaluations réelles de l'utilisateur (ensemble de test)
+    test_movies = ratings[ratings['userId'] == user_id]
+    test_movies = test_movies[
+        test_movies['rating'] >= 4.0]  # Considérer les films que l'utilisateur a aimés (note >= 4)
+
+    # Films recommandés par le modèle (avec ID du film)
+    recommended_movie_ids = [movies[movies['title'] == title]['movieId'].iloc[0] for title, _ in recommended_movies]
+
+    # Films réels que l'utilisateur a appréciés
+    actual_movie_ids = test_movies['movieId'].tolist()
+
+    # Calcul de la précision, du rappel et du F1-score
+    # Transformer les listes en vecteurs binaires pour les calculs
+    y_true = [1 if movie_id in actual_movie_ids else 0 for movie_id in recommended_movie_ids]
+    y_pred = [1] * len(recommended_movie_ids)  # Tous les films recommandés sont considérés comme "prédits positifs"
+
+    # Calcul des métriques
+    precision = precision_score(y_true, y_pred)
+    recall = recall_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred)
+
+    return precision, recall, f1
+
+
+# Exemple d'utilisation : évaluer pour l'ID utilisateur 1
+user_id = 1
+recommended_movies = HybridRecommender(user_id)
+
+# Évaluation de la performance
+precision, recall, f1 = evaluate_performance(user_id, recommended_movies)
+
+# Affichage des résultats
+st.subheader("📊 Performance du modèle")
+st.markdown(f"**Précision** : {precision:.2f}")
+st.markdown(f"**Rappel** : {recall:.2f}")
+st.markdown(f"**F1-score** : {f1:.2f}")
